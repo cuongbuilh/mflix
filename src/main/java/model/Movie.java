@@ -20,4 +20,5 @@ public class Movie {
     private List<String> writers;
     private List<String> countries;
     private List<String> genres;
+    private int runtime;
 }

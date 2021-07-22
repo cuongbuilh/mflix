@@ -30,20 +30,6 @@ public class MyFilter implements Filter {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        try {
-//            IController controller = this.application.resolveControllerForRequest((HttpServletRequest) request);
-//            ITemplateEngine templateEngine = this.application.templateEngine;
-//            response.setContentType("text/html;charset=UTF-8");
-//            ((HttpServletResponse) response).setHeader("Pragma", "no-cache");
-//            ((HttpServletResponse) response).setHeader("Cache-Control", "no-cache");
-//            ((HttpServletResponse) response).setDateHeader("Expires", 0);
-//            controller.process((HttpServletRequest) request, ((HttpServletResponse) response), this.servletContext, templateEngine);
-//
-//            chain.doFilter(request, response);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
     }
 
     private boolean process(HttpServletRequest request, HttpServletResponse response) throws Exception {

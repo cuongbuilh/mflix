@@ -17,8 +17,18 @@ public class HomeController implements IController {
         WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         List<Movie> list = new MovieService().getMoviesforHomePage();
         ctx.setVariable("list", list);
-        List<String> genres = new MovieService().getGenresforHeader();
-        ctx.setVariable("genres", genres);
+
+        String url = "/?";
+        if (request.getParameter("by") != null) {
+            String by = request.getParameter("by").trim();
+            url = url + "&by=" + by;
+        }
+        if (request.getParameter("value") != null) {
+            String value = request.getParameter("value").trim();
+            url = url + "&value=" + value;
+        }
+        ctx.setVariable("url", url);
+
         templateEngine.process("index", ctx, response.getWriter());
     }
 }

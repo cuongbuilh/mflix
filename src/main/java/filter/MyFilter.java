@@ -2,14 +2,12 @@ package filter;
 
 import application.MyApplication;
 import controller.IController;
-import lombok.SneakyThrows;
 import org.thymeleaf.ITemplateEngine;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @WebFilter(urlPatterns = "/*")
 public class MyFilter implements Filter {
@@ -21,8 +19,7 @@ public class MyFilter implements Filter {
         this.application = new MyApplication(this.servletContext);
     }
 
-    @SneakyThrows
-    public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws ServletException, IOException {
+    public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) {
         try {
             if (!process((HttpServletRequest) request, (HttpServletResponse) response)) {
                 chain.doFilter(request, response);
@@ -32,19 +29,23 @@ public class MyFilter implements Filter {
         }
     }
 
+
     private boolean process(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if (request.getRequestURI().startsWith("/CSS")
-                || request.getRequestURI().startsWith("/images")
-                || request.getRequestURI().startsWith("/favicon")) {
+        if (request.getRequestURI().startsWith("/CSS") || request.getRequestURI().startsWith("/images") || request.getRequestURI().startsWith("/templates"))
             return false;
-        }
         IController controller = this.application.resolveControllerForRequest(request);
-        ITemplateEngine templateEngine = this.application.templateEngine;
-        response.setContentType("text/html;charset=UTF-8");
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setDateHeader("Expires", 0);
-        controller.process(request, response, this.servletContext, templateEngine);
+        if (controller == null) {
+            System.out.println();
+        } else {
+            ITemplateEngine templateEngine = this.application.templateEngine;
+            response.setContentType("text/html;charset=UTF-8");
+            response.setHeader("Pragma", "no-cache");
+            response.setHeader("Cache-Control", "no-cache");
+            response.setDateHeader("Expires", 0);
+
+            controller.process(request, response, this.servletContext, templateEngine);
+        }
         return true;
+
     }
 }

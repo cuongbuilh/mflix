@@ -1,9 +1,10 @@
 package controller;
 
-import com.mongodb.client.DistinctIterable;
 import model.Movie;
 import org.thymeleaf.ITemplateEngine;
+import org.thymeleaf.*;
 import org.thymeleaf.context.WebContext;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import service.MovieService;
 
 import javax.servlet.ServletContext;
@@ -15,20 +16,37 @@ public class HomeController implements IController {
 
     public void process(final HttpServletRequest request, final HttpServletResponse response, final ServletContext servletContext, final ITemplateEngine templateEngine) throws Exception {
         WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-        List<Movie> list = new MovieService().getMoviesforHomePage();
-        ctx.setVariable("list", list);
-
+        String by = null;
+        String value = null;
+        String text = null;
         String url = "/?";
         if (request.getParameter("by") != null) {
-            String by = request.getParameter("by").trim();
+            by = request.getParameter("by").trim();
             url = url + "&by=" + by;
         }
         if (request.getParameter("value") != null) {
-            String value = request.getParameter("value").trim();
+            value = request.getParameter("value").trim();
             url = url + "&value=" + value;
+        }
+        if (request.getParameter("text") != null) {
+            text = request.getParameter("text").trim();
+            url = url + "&text=" + text;
         }
         ctx.setVariable("url", url);
 
+        long totalPages = new MovieService().getTotalPages(by, value, text);
+        ctx.setVariable("totalPages", totalPages);
+        int page = 1;
+        if (request.getParameter("page") != null)
+            page = Integer.parseInt(request.getParameter("page").trim());
+        ctx.setVariable("page", page);
+
+
+        List<Movie> list = new MovieService().searchMovies(by, value, page, text);
+        ctx.setVariable("list", list);
+
         templateEngine.process("index", ctx, response.getWriter());
     }
+
+
 }

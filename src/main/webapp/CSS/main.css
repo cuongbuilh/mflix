@@ -16,13 +16,14 @@
     -webkit-box-orient: vertical;
 }
 .movie-description{
-    height: 50px;
+    height: 70px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 3; /* number of lines to show */
     -webkit-box-orient: vertical;
 }
+
 .movie-cast{
     height: 50px;
     overflow: hidden;
@@ -30,4 +31,12 @@
     display: -webkit-box;
     -webkit-line-clamp: 2; /* number of lines to show */
     -webkit-box-orient: vertical;
+}
+
+.movie-poster{
+    width: 100%;
+    background: gray;
+    max-height: 600px;
+    min-height: 300px;
+    object-fit: cover;
 }

@@ -1,15 +1,20 @@
 package controller;
 
 import com.mongodb.client.DistinctIterable;
+import com.mongodb.client.FindIterable;
+import model.Comment;
 import model.Movie;
 import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.context.WebContext;
+import service.CommentService;
 import service.MovieService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
+
 
 public class MovieController implements IController {
     @Override
@@ -18,6 +23,12 @@ public class MovieController implements IController {
         String id = request.getParameter("id");
         Movie movie = new MovieService().getMovieByID(id);
         ctx.setVariable("movie", movie);
+
+        FindIterable<Comment> comments = new CommentService().getComments("movie_id", movie.getId());
+        List<Comment> cmts = new ArrayList<>();
+        comments.forEach(c -> cmts.add(c));
+        ctx.setVariable("comments", cmts);
+
         templateEngine.process("movie", ctx, response.getWriter());
     }
 }

@@ -39,6 +39,10 @@ public class MovieService {
     public List<Movie> searchMovies(String by, String value, int page, String text) {
         Document filter = new Document();
         Document sort = new Document();
+        if (by == null & text == null) {
+            filter.append("poster", new Document("$ne", null));  //No poster -> Dont't Appear on Home Page
+            filter.append("plot", new Document("$ne", null)); //No Plot -> Dont't Appear on Home Page
+        }
         if (by != null && value != null)
             filter.append(by, value);
         if (text != null)
@@ -58,6 +62,10 @@ public class MovieService {
         Document filter = new Document();
         if (by != null && value != null)
             filter.append(by, value);
+        if (by == null & text == null) {
+            filter.append("poster", new Document("$ne", null));  //No poster -> Dont't Appear on Home Page
+            filter.append("plot", new Document("$ne", null)); //No Plot -> Dont't Appear on Home Page
+        }
         if (text != null)
             filter.append("$text", new Document("$search", text));
         long totalMovies = new MovieDAO().getMoviesNumber(filter);

@@ -45,6 +45,20 @@ public class HomeController implements IController {
         List<Movie> list = new MovieService().searchMovies(by, value, page, text);
         ctx.setVariable("list", list);
 
+        boolean showCarousel = true;
+        boolean showBreadcrumb = true;
+        if (by != null || text != null) {  //Filter
+            showCarousel = false;
+            if (by != null)
+                ctx.setVariable("breadCrumb", value);
+            else if (text != null)
+                ctx.setVariable("breadCrumb", "Search result for: <b>" + text + "</b>");
+        } else { //Home
+            showBreadcrumb = false;
+        }
+        ctx.setVariable("showCarousel", showCarousel);
+        ctx.setVariable("showBreadcrumb", showBreadcrumb);
+
         templateEngine.process("index", ctx, response.getWriter());
     }
 

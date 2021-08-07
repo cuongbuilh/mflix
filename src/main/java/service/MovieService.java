@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieService {
+    final static int NUM_OF_MOVIE_ON_PAGE = 12;
 
     public List<Movie> getMoviesforHomePage() {
         List<Movie> list = new MovieDAO().getMovies(6);
@@ -35,7 +36,6 @@ public class MovieService {
         return list;
     }
 
-    final static int NUM_OF_MOVIE_ON_PAGE = 6;
     public List<Movie> searchMovies(String by, String value, int page, String text) {
         Document filter = new Document();
         Document sort = new Document();

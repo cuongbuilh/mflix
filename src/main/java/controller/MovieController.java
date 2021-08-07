@@ -16,18 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MovieController implements IController {
+public class MovieController extends MyController {
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response, ServletContext servletContext, ITemplateEngine templateEngine) throws Exception {
-        WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+        super.process(request, response, servletContext, templateEngine);
         String id = request.getParameter("id");
         Movie movie = new MovieService().getMovieByID(id);
         ctx.setVariable("movie", movie);
 
+        ctx.setVariable("url", "movie?id=" + id);
+
         FindIterable<Comment> comments = new CommentService().getComments("movie_id", movie.getId());
-        List<Comment> cmts = new ArrayList<>();
-        comments.forEach(c -> cmts.add(c));
-        ctx.setVariable("comments", cmts);
+        ctx.setVariable("comments", comments);
 
         templateEngine.process("movie", ctx, response.getWriter());
     }

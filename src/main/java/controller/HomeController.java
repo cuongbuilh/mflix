@@ -6,16 +6,19 @@ import org.thymeleaf.*;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import service.MovieService;
+import utils.MyCookie;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Locale;
 
-public class HomeController implements IController {
+public class HomeController extends MyController {
 
     public void process(final HttpServletRequest request, final HttpServletResponse response, final ServletContext servletContext, final ITemplateEngine templateEngine) throws Exception {
-        WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+        super.process(request, response, servletContext, templateEngine);
         String by = null;
         String value = null;
         String text = null;
@@ -34,17 +37,6 @@ public class HomeController implements IController {
         }
         ctx.setVariable("url", url);
 
-        long totalPages = new MovieService().getTotalPages(by, value, text);
-        ctx.setVariable("totalPages", totalPages);
-        int page = 1;
-        if (request.getParameter("page") != null)
-            page = Integer.parseInt(request.getParameter("page").trim());
-        ctx.setVariable("page", page);
-
-
-        List<Movie> list = new MovieService().searchMovies(by, value, page, text);
-        ctx.setVariable("list", list);
-
         boolean showCarousel = true;
         boolean showBreadcrumb = true;
         if (by != null || text != null) {  //Filter
@@ -59,8 +51,16 @@ public class HomeController implements IController {
         ctx.setVariable("showCarousel", showCarousel);
         ctx.setVariable("showBreadcrumb", showBreadcrumb);
 
+        long totalPages = new MovieService().getTotalPages(by, value, text);
+        ctx.setVariable("totalPages", totalPages);
+        int page = 1;
+        if (request.getParameter("page") != null)
+            page = Integer.parseInt(request.getParameter("page").trim());
+        ctx.setVariable("page", page);
+
+
+        List<Movie> list = new MovieService().searchMovies(by, value, page, text);
+        ctx.setVariable("list", list);
         templateEngine.process("index", ctx, response.getWriter());
     }
-
-
 }

@@ -1,4 +1,4 @@
-var firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyCpXMzEAqacI-h4tamDomNHa__NAwFtmsU",
     authDomain: "my-mflix.firebaseapp.com",
     projectId: "my-mflix",
@@ -8,10 +8,15 @@ var firebaseConfig = {
     measurementId: "G-9WQ818XMDL"
 };
 
-$(function () {
-    firebase.initializeApp(firebaseConfig);
-    alert(firebase.SDK_VERSION)
-});
+// var firebaseConfig = {
+//     apiKey: "AIzaSyBy7jLeJGFkf2f3NGj31HUinBoCoapLY_c",
+//     authDomain: "mflix-3c4b9.firebaseapp.com",
+//     projectId: "mflix-3c4b9",
+//     storageBucket: "mflix-3c4b9.appspot.com",
+//     messagingSenderId: "40233807911",
+//     appId: "1:40233807911:web:0a6234bcc4ee4cef5ade02",
+//     measurementId: "G-V36EWQNVE8"
+// };
 
 var uiConfig = {
     signInFlow: 'popup',
@@ -38,7 +43,6 @@ var uiConfig = {
 
     autoUpgradeAnonymousUsers: true
 };
-
 var ui
 $(function () {
     firebase.initializeApp(firebaseConfig);
@@ -64,7 +68,6 @@ function handleSignedInUser(user) {
     }
     $('#modal-login').modal('hide');
 }
-
 function handleSignedOutUser() {
     ui.start("#firebaseui-auth-container", uiConfig);
     $(".user").addClass("d-none")

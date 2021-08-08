@@ -44,3 +44,6 @@
 [class*='mdl-shadow']{
     box-shadow: none;
 }
+.dropdown-menu-center {
+    transform: translate(-28%, 0) !important;
+}

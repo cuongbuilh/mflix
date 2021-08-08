@@ -25,7 +25,8 @@ public abstract class AbsDAO {
         if (db == null) {
             CodecRegistry pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),fromProviders(PojoCodecProvider.builder().automatic(true).build()));
 //            String conString = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false";
-            String conString = "mongodb+srv://root:root@cluster0.lh5rj.mongodb.net";
+//            String conString = "mongodb+srv://root:root@cluster0.lh5rj.mongodb.net";
+            String conString = "mongodb+srv://buicuong:buicuong@cluster0.6cnkq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
             ConnectionString connectionString = new ConnectionString(conString);
             MongoClientSettings settings = MongoClientSettings.builder()
                     .codecRegistry(pojoCodecRegistry)

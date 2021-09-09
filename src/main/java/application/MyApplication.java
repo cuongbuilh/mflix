@@ -16,7 +16,7 @@ import java.util.Map;
 public class MyApplication {
 
     public TemplateEngine templateEngine;
-    private Map<String, IController> controllersByURL;
+    private final Map<String, IController> controllersByURL;
 
     public MyApplication(final ServletContext servletContext) {
         super();

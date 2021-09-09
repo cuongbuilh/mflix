@@ -1,4 +1,4 @@
-package DAO;
+package DAO.MongoDB;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
